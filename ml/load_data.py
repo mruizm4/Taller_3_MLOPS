@@ -36,8 +36,21 @@ def load_penguins(csv_path: str):
     print("📥 Reading CSV...")
     df = pd.read_csv(csv_path)
 
+    # Asegurarse de que las columnas coincidan con el pipeline y la base de datos
+    expected_cols = [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g",
+        "island",
+        "sex",
+        "species"
+    ]
+    if not all(col in df.columns for col in expected_cols):
+        raise ValueError(f"El CSV debe contener las columnas: {expected_cols}")
+
     print("🗄️ Writing to MySQL (penguins_raw)...")
-    df.to_sql(
+    df[expected_cols].to_sql(
         "penguins_raw",
         con=engine,
         if_exists="append",  # importante para pipeline real
@@ -47,7 +60,3 @@ def load_penguins(csv_path: str):
 
     print(f"✅ Loaded {len(df)} rows")
 
-
-if __name__ == "__main__":
-    csv_path = os.getenv("CSV_PATH", "/data/penguins_size.csv")
-    load_penguins(csv_path)

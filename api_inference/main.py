@@ -54,9 +54,9 @@ logger = logging.getLogger(__name__)
 # Los modelos se cargan una única vez al iniciar el contenedor.
 # Esto evita overhead de I/O y deserialización en cada request (muy importante en producción).
 
-tree_model, tree_encoders, tree_scaler = load_model("decision_tree.pkl")
-knn_model, knn_encoders, knn_scaler = load_model("knn.pkl")
-svm_model, svm_encoders, svm_scaler = load_model("svm.pkl")
+tree_model, tree_encoders, tree_scaler = load_model("models/decision_tree.pkl")
+knn_model, knn_encoders, knn_scaler = load_model("models/knn.pkl")
+svm_model, svm_encoders, svm_scaler = load_model("models/svm.pkl")
 
 # Registro centralizado de modelos disponibles
 # Permite seleccionar dinámicamente qué modelo ejecutar desde la API
