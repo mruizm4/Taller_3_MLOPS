@@ -1,0 +1,33 @@
+services:
+  mysql_data:
+    image: mysql:8.0
+    container_name: mysql_penguins
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: data
+      MYSQL_DATABASE: penguins
+      MYSQL_USER: penguins_user
+      MYSQL_PASSWORD: penguins_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - data:/var/lib/mysql
+
+  data_loader:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile
+    depends_on:
+      - mysql_data
+    environment:
+      MYSQL_HOST: mysql_data
+      MYSQL_PORT: 3306
+      MYSQL_USER: penguins_user
+      MYSQL_PASSWORD: penguins_pass
+      MYSQL_DB: penguins
+      CSV_PATH: /data/penguins_size.csv
+    restart: "no"
+
+
+volumes:
+  data:
