@@ -4,16 +4,16 @@ MODEL: SVM
 CLASSIFICATION REPORT
               precision    recall  f1-score   support
 
-      Adelie       1.00      0.98      0.99        46
+      Adelie       0.98      0.98      0.98        44
    Chinstrap       0.95      1.00      0.98        21
-      Gentoo       1.00      1.00      1.00        37
+      Gentoo       1.00      0.97      0.99        36
 
-    accuracy                           0.99       104
-   macro avg       0.98      0.99      0.99       104
-weighted avg       0.99      0.99      0.99       104
+    accuracy                           0.98       101
+   macro avg       0.98      0.98      0.98       101
+weighted avg       0.98      0.98      0.98       101
 
 
 CONFUSION MATRIX
-[[45  1  0]
+[[43  1  0]
  [ 0 21  0]
- [ 0  0 37]]
+ [ 1  0 35]]

@@ -1,5 +1,5 @@
 import pandas as pd
-from train import load_model
+from Taller_3_MLOPS.airflow.src.train import load_model
 from predict import predict_new_data
 
 # Cargar modelo (prueba con svm, knn o decision_tree)

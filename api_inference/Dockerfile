@@ -1,16 +1,12 @@
-FROM python:3.11
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copiar requirements.txt desde el contexto correcto
-COPY requirements.txt /app/requirements.txt
+COPY requirements-api.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-RUN ls -R
 
-
-# Copiar solo los archivos necesarios
 COPY main.py ./
 COPY predict.py ./
 COPY models/ ./models/
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]

@@ -60,7 +60,7 @@ def preprocess_data(df):
 
     encoders = {"onehot": ohe}
 
-    return X_final, y, encoders
+    return df, X_final, y, encoders
 
 
 
@@ -82,7 +82,32 @@ def train_decision_tree(df):
         - Guarda los resultados en 'models_performance/decision_tree_results.txt'
         - Guarda el modelo en 'models/decision_tree.pkl'
     """
-    X, y, encoders = preprocess_data(df)
+    df = df.copy()
+
+    num_cols = [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+    ]
+
+    cat_cols = ["island", "sex"]
+    target = "species"
+
+
+    X = df.drop(columns=target)
+    y = df[target]
+
+    # OneHotEncoder para variables categóricas
+    ohe = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+    X_cat = ohe.fit_transform(X[cat_cols])
+    cat_feature_names = ohe.get_feature_names_out(cat_cols)
+    X_cat_df = pd.DataFrame(X_cat, columns=cat_feature_names, index=X.index)
+
+    # Concatenar numéricas y categóricas
+    X = pd.concat([X[num_cols], X_cat_df], axis=1)
+
+    encoders = {"onehot": ohe}
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y,
@@ -126,7 +151,33 @@ def train_svm(df):
         - Guarda los resultados en 'models_performance/svm_results.txt'
         - Guarda el modelo y el scaler en 'models/svm.pkl'
     """
-    X, y, encoders = preprocess_data(df)
+    df = df.copy()
+    print("clumnas del df:", df.columns)
+
+    num_cols = [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+    ]
+
+    cat_cols = ["island", "sex"]
+    target = "species"
+
+
+    X = df.drop(columns=target)
+    y = df[target]
+
+    # OneHotEncoder para variables categóricas
+    ohe = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+    X_cat = ohe.fit_transform(X[cat_cols])
+    cat_feature_names = ohe.get_feature_names_out(cat_cols)
+    X_cat_df = pd.DataFrame(X_cat, columns=cat_feature_names, index=X.index)
+
+    # Concatenar numéricas y categóricas
+    X = pd.concat([X[num_cols], X_cat_df], axis=1)
+
+    encoders = {"onehot": ohe}
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -175,7 +226,33 @@ def train_knn(df):
         - Guarda los resultados en 'models_performance/knn_results.txt'
         - Guarda el modelo y el scaler en 'models/knn.pkl'
     """
-    X, y, encoders = preprocess_data(df)
+    df = df.copy()
+
+    num_cols = [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+    ]
+
+    cat_cols = ["island", "sex"]
+    target = "species"
+
+
+    X = df.drop(columns=target)
+    y = df[target]
+
+    # OneHotEncoder para variables categóricas
+    ohe = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+    X_cat = ohe.fit_transform(X[cat_cols])
+    cat_feature_names = ohe.get_feature_names_out(cat_cols)
+    X_cat_df = pd.DataFrame(X_cat, columns=cat_feature_names, index=X.index)
+
+    # Concatenar numéricas y categóricas
+    X = pd.concat([X[num_cols], X_cat_df], axis=1)
+
+    encoders = {"onehot": ohe}
+
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -239,10 +316,10 @@ CONFUSION MATRIX
 {matrix}
 """
 
-    with open(f"models_performance/{model_name}_results.txt", "w") as f:
+    with open(f"/opt/airflow/models_performance/{model_name}_results.txt", "w") as f:
         f.write(results_text)
 
-    save_model(model, encoders, scaler, f"models/{model_name}.pkl")
+    save_model(model, encoders, scaler, f"/opt/airflow/models/{model_name}.pkl")
 
     return model
 

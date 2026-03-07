@@ -4,16 +4,16 @@ MODEL: DECISION_TREE
 CLASSIFICATION REPORT
               precision    recall  f1-score   support
 
-      Adelie       0.96      0.98      0.97        46
-   Chinstrap       0.95      0.95      0.95        21
-      Gentoo       1.00      0.97      0.99        37
+      Adelie       0.95      0.93      0.94        44
+   Chinstrap       0.88      1.00      0.93        21
+      Gentoo       1.00      0.94      0.97        36
 
-    accuracy                           0.97       104
-   macro avg       0.97      0.97      0.97       104
-weighted avg       0.97      0.97      0.97       104
+    accuracy                           0.95       101
+   macro avg       0.94      0.96      0.95       101
+weighted avg       0.95      0.95      0.95       101
 
 
 CONFUSION MATRIX
-[[45  1  0]
- [ 1 20  0]
- [ 1  0 36]]
+[[41  3  0]
+ [ 0 21  0]
+ [ 2  0 34]]
